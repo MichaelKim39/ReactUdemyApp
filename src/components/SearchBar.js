@@ -46,20 +46,27 @@ const styles = StyleSheet.create({
 
 export default SearchBar;
 
-// NOTES:
-// Using expo CLI to generate app gives us access to many libraries that we typically want to use for mobile apps
-// E.g. Vector icons library 
+// NOTES:===============================================================================================================
 
-// Icons usually need some styling straight away
-// Size prop can be passed instead of using stylesheet 
+/* 
+Using expo CLI to generate app gives us access to many libraries that we typically want to use for mobile apps
+E.g. Vector icons library 
 
-// Note that alignItems on parent should not be used for text input components
-// The input will be squished so user cannot access it by tapping anywhere on parent's flex direction
-// Default font size of textInput is 14
+Icons usually need some styling straight away
+Size prop can be passed instead of using stylesheet 
 
-// Note that onChangeText for textInput defines a function whose first argument is the new text
-    // onChangeText = { newTerm => onTermChange(newTerm) }
-// Equivalently can just reference function to call in parent without brackets
-    // onChangeText = {onTermChange}
+Note that alignItems on parent should not be used for text input components
+The input will be squished so user cannot access it by tapping anywhere on parent's flex direction
+Default font size of textInput is 14
 
-// Note that onEndEditing prop triggers a function after user presses enter on keyboard
+Note that onChangeText for textInput defines a function whose first argument is the new text
+    onChangeText = { newTerm => onTermChange(newTerm) }
+Equivalently can just reference function to call in parent without brackets
+    onChangeText = {onTermChange}
+
+Note that onEndEditing prop triggers a function after user presses enter on keyboard
+
+Two methods to make network requests: fetch and axios
+Fetch is built in function - but weird error handling and requires a wrapper to be coded for it
+Axios is an easy to use library for making requests - prevents use of network requests (Requires a small package to be installed, npm install axios)
+*/
