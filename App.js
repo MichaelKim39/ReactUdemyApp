@@ -1,12 +1,15 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import SearchScreen from './src/screens/SearchScreen';
+import ResultsShowScreen from './src/screens/ResultsShowScreen';
 
 // 3 Types of in built navigation - stack, bottom-tab, side-drawer
 // Stack navigator function takes two arguments
 const navigator = createStackNavigator({
-  Search: SearchScreen
-}, {
+  Search: SearchScreen,
+  ResultsShow: ResultsShowScreen,
+}, 
+{
   initialRouteName: 'Search',
   defaultNavigationOptions: {
     title: 'Business Search'

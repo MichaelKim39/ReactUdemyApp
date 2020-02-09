@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
     // Create a state variable to display search term and to extract businesses array from search get request
     // Create a state variable to display error messages
     const [term, setTerm] = useState('');
@@ -20,19 +20,33 @@ const SearchScreen = () => {
     };
 
     return (
-        <View>
+        <>
             <SearchBar 
                 term={term} 
                 onTermChange={setTerm} 
                 onTermSubmit={() => searchAPI(term)}
             />
             {errorMessage ? <Text>{errorMessage}</Text> : null}
-            <Text>Found {results.length} results</Text>
+            {/* <Text>Found {results.length} results</Text> */}
 
-            <ResultsList results={filterResultsByPrice('$')} title="Cost Effective" />
-            <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier" />
-            <ResultsList results={filterResultsByPrice('$$$')} title="Big Spender" />
-        </View>
+            <ScrollView>
+                <ResultsList 
+                    results={filterResultsByPrice('$')} 
+                    title="Cost Effective"
+                    navigation={navigation}
+                />
+                <ResultsList 
+                    results={filterResultsByPrice('$$')} 
+                    title="Bit Pricier"
+                    navigation={navigation} 
+                />
+                <ResultsList 
+                    results={filterResultsByPrice('$$$')} 
+                    title="Big Spender"
+                    navigation={navigation}
+                />
+            </ScrollView>
+        </>
     );
 };
 
@@ -77,4 +91,15 @@ useEffect takes 2 arguments,
     useEffect(() => {}) runs every render
     useEffect(() => {}, []) runs on first render
     useEffect(() => {}, [value]) runs on first render and value change
+
+For smaller devices, wrap JSX contents in a ScrollView which automatically enables scrolling when necessary
+PROBLEM: add flex 1 to most parent view to avoid content being cut off 
+style={{ flex: 1, borderColor: 'red', borderWidth: 10}}
+<View style={{ flex: 1 }}>
+
+Recall that we can only return at most 1 element from a variable by default
+BUT we can choose to return NOT an element 
+IE replace <View></View> with <></> which works as invisible enclosing element
+This by default will forbid elements cutting off prematurely so avoids need to use flex: 1
+But beware that cannot add styling this way
 */
