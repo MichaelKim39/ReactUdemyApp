@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
 
-const SearchScreen = ({ navigation }) => {
+const SearchScreen = () => {
     // Create a state variable to display search term and to extract businesses array from search get request
     // Create a state variable to display error messages
     const [term, setTerm] = useState('');
@@ -33,17 +33,14 @@ const SearchScreen = ({ navigation }) => {
                 <ResultsList 
                     results={filterResultsByPrice('$')} 
                     title="Cost Effective"
-                    navigation={navigation}
                 />
                 <ResultsList 
                     results={filterResultsByPrice('$$')} 
                     title="Bit Pricier"
-                    navigation={navigation} 
                 />
                 <ResultsList 
                     results={filterResultsByPrice('$$$')} 
                     title="Big Spender"
-                    navigation={navigation}
                 />
             </ScrollView>
         </>
@@ -102,4 +99,7 @@ BUT we can choose to return NOT an element
 IE replace <View></View> with <></> which works as invisible enclosing element
 This by default will forbid elements cutting off prematurely so avoids need to use flex: 1
 But beware that cannot add styling this way
+
+Navigation prop can be passed from here to sub components but this is a roundabout method - search screen doesn't even need navigate
+Do it another way...
 */
