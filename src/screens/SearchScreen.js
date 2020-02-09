@@ -1,34 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import yelp from '../api/yelp';
+import useResults from '../hooks/useResults';
+import ResultsList from '../components/ResultsList';
 
 const SearchScreen = () => {
     // Create a state variable to display search term and to extract businesses array from search get request
     // Create a state variable to display error messages
     const [term, setTerm] = useState('');
-    const [results, setResults] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [searchAPI, results, errorMessage] = useResults();
 
-    // Helper function to facilitate API request
-    // Recall: Route is concatenated onto baseURL specified in yelp.js
-    // Assign response to a variable using async await as requests are asynchronous
-    // Use state setter using response from request (data. keyword as accessor)
-    // Writing params as second argument of axios calls will append param key value pairs onto the end of our network call
-    const searchAPI = async (searchTerm) => {
-        try {
-            const response = await yelp.get('/search', {
-                params: {
-                    limit: 50,
-                    term: searchTerm,
-                    location: 'san jose'
-                }
-            });
-            setResults(response.data.businesses);
-        } catch (err) {
-            setErrorMessage('Something Went Wrong...');
-            // console.log(err);
-        }
+    // console.log(results);
+    // Helper function to filter results by price
+    const filterResultsByPrice = (price) => {
+        // price == $ || $$ || $$$
+        return results.filter(result => {
+            return result.price == price;
+        });
     };
 
     return (
@@ -40,6 +28,10 @@ const SearchScreen = () => {
             />
             {errorMessage ? <Text>{errorMessage}</Text> : null}
             <Text>Found {results.length} results</Text>
+
+            <ResultsList results={filterResultsByPrice('$')} title="Cost Effective" />
+            <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier" />
+            <ResultsList results={filterResultsByPrice('$$$')} title="Big Spender" />
         </View>
     );
 };
@@ -76,4 +68,13 @@ Use ternary expression
 
 Can never call a function directly inside main component for default API calls
 This will usually involve a setter being called inside component and making more API calls than appropriate (Infinite loop)
+
+useEffect from 'react' is a hook (function) that allows us to run some code once component is first rendered to screen (JUST ONCE)
+Effect hook allows side effects to occur in function components
+useEffect takes 2 arguments, 
+    1. Arrow function that runs some amount of times
+    2. Some element configuring how often we run the function
+    useEffect(() => {}) runs every render
+    useEffect(() => {}, []) runs on first render
+    useEffect(() => {}, [value]) runs on first render and value change
 */
